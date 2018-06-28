@@ -13,8 +13,13 @@ router
   .put('/api/:name', controllers.api.Put)
   .del('/api/:name', controllers.api.Delete)
   .post('/auth/:action', controllers.auth.Post)
-  .post('/api/user/login', controllers.user.login)
+  // .post('/api/user/login', controllers.user.login)
   .get('/api/user/login', controllers.user.login)
   .post('/api/user/userInfo', controllers.user.userInfo)
+
+
+
+  .post('/api/user/login', controllers.user.login)
+  .post('/api/user/userInfoByToken', controllers.user.userInfoByToken)
 
 module.exports = router
