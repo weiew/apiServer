@@ -5,11 +5,17 @@ module.exports = function () {
         case 401:
           ctx.status = 200
           ctx.body = {
-            status: 401,
-            result: {
-              err: 'Authentication Error',
-              errInfo: 'Protected resource, use Authorization header to get access.'
-            }
+            result: 401,
+            msg: 'Authentication Error',
+            msgInfo:'Protected resource, use Authorization header to get access.',
+          }
+          break
+        case 498:
+          ctx.status = 200
+          ctx.body = {
+            result: 498,
+            msg: err.errorMsg,
+            msgInfo:err.errorInfo,
           }
           break
         default:

@@ -2,6 +2,8 @@
 import path from 'path'
 import jsonwebtoken from 'jsonwebtoken'
 import fs from 'fs'
+import validator from '../tool/validator'
+
 const publicKey = fs.readFileSync(path.join(__dirname, '../../publicKey.pub'))
 export let login = (ctx) => {
   if (ctx.request.header.authentication) {
@@ -55,5 +57,25 @@ export let userInfoByToken = (ctx) => {
     result: '100',
     msg: '获取成功',
     dto:userInfo,
+  }
+}
+
+export let register = (ctx) => {
+  console.log('register');
+  let userInfo=ctx.request.body;
+
+  validator(userInfo,
+    {
+      name:'name',
+      email:'email',
+      mobile:'allphpneCanNull',
+      gender:'gender',
+      age:'ageCanNull',
+    }
+  );
+
+  ctx.body = {
+    result: '100',
+    msg: '注册成功',
   }
 }

@@ -21,5 +21,6 @@ router
 
   .post('/api/user/login', controllers.user.login)
   .post('/api/user/userInfoByToken', controllers.user.userInfoByToken)
+  .post('/api/user/register', controllers.user.register)
 
 module.exports = router
