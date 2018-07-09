@@ -13,6 +13,7 @@ var Regexs = {
   gender: (/^[01]{1}$/),//性别
   age: (/^([1-9]\d?|1\d{2})$/),//性别
   name: (/^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$/),//姓名：数字字母汉字下划线
+  password:(/^[0-9a-zA-Z_]{6,16}$/),
 };
 var RegexsName = {
   email: '邮箱',//邮箱
@@ -29,30 +30,25 @@ var RegexsName = {
   gender: '性别',
   age: '年龄',
   name: '名称',
+  password: '密码',
 }
 /**
  * @return 若符合对应的格式，返回true，否则返回false
  */
-function chkFormat(str, ftype, canNull) {
+function chkFormat(str, ftype, canNull, localLabel) {
   var nReg = Regexs[ftype];
   if (str == null || str == "") {
     if (canNull) {
         return false;
     }else{
-        return RegexsName[ftype] + '不能为空'; //输入为空，认为是验证通过
+        return (localLabel?localLabel:RegexsName[ftype]) + '不能为空'; //输入为空，认为是验证通过
     }
   }
-  // if (ftype == 'num') {
-  //   if (!nReg.test(str) && !chkChinese(str)) {//10.23 tenfy 必须为数字且不能有中文
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+
   if (nReg.test(str)) {
     return false;
   } else {
-    return RegexsName[ftype] + '格式不正确';
+    return (localLabel?localLabel:RegexsName[ftype]) + '格式不正确';
   }
 };
 function chkChinese(s) {
@@ -66,9 +62,16 @@ module.exports = (data, checkList) => {
   let result=false;
   let dataKey="";
   Object.keys(checkList).forEach(function(key){
-    let canNull = checkList[key].indexOf("CanNull")>=0;
+    let localLabel=false;
+    let regexTarget=checkList[key];
+    if(regexTarget.indexOf("$")>=0){
+      localLabel=regexTarget.split("$")[1];
+      regexTarget=regexTarget.split("$")[0];
+
+    }
+    let canNull = regexTarget.indexOf("CanNull")>=0;
     if(!result){
-      result=chkFormat(data[key],checkList[key].replace("CanNull",""),canNull);
+      result=chkFormat(data[key],regexTarget.replace("CanNull",""),canNull,localLabel);
       dataKey=key;
     }
   });

@@ -66,11 +66,12 @@ export let register = (ctx) => {
 
   validator(userInfo,
     {
-      name:'name',
+      name:'name$用户名称',
       email:'email',
       mobile:'allphpneCanNull',
       gender:'gender',
       age:'ageCanNull',
+      password:'password',
     }
   );
 
@@ -78,4 +79,5 @@ export let register = (ctx) => {
     result: '100',
     msg: '注册成功',
   }
+
 }
