@@ -61,17 +61,16 @@ export let userInfoByToken = (ctx) => {
 }
 
 export let register = (ctx) => {
-  console.log('register');
   let userInfo=ctx.request.body;
 
   validator(userInfo,
     {
-      name:'name$用户名称',
+      account:'account',
       email:'email',
-      mobile:'allphpneCanNull',
-      gender:'gender',
-      age:'ageCanNull',
-      password:'password',
+      //mobile:'allphpneCanNull', 前期先不做要求吧
+      //gender:'gender',放到用户信息里面去 默认空
+      //age:'ageCanNull',放到用户信息里面去 默认空
+      password:'password'
     }
   );
 
