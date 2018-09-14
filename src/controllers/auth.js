@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import fs from 'fs'
 import path from 'path'
 
-const publicKey = fs.readFileSync(path.join(__dirname, '../../publicKey.pub'))
+import tokenKey from '../lib/webToken'
 
 // 用户登录的时候返回token
 // let token = jwt.sign({
@@ -16,8 +16,9 @@ export let CheckAuth = (ctx) => {
   console.log('check')
   let token = ctx.request.header.authorization
   try {
-    let decoded = jwt.verify(token.substr(7), publicKey)
+    let decoded = jwt.verify(token.substr(7), tokenKey)
     if (decoded.userInfo) {
+      console.log("验证token成功.........")
       return {
         status: 1,
         result: decoded.userInfo

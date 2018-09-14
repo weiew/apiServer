@@ -20,9 +20,9 @@ router
 
 
   .post('/api/project/info', controllers.project.projectInfo)
-  .post('/api/module/info', controllers.project.moduleInfo)
-  .post('/api/interface/info', controllers.project.interfaceInfo)
-  .post('/api/field/info', controllers.project.fieldInfo)
+  .post('/api/module/info', controllers.module.moduleInfo)
+  .post('/api/interface/info', controllers.interface.interfaceInfo)
+  .post('/api/field/info', controllers.field.fieldInfo)
 
   .post('/api/user/login', controllers.user.login)
   .post('/api/user/userInfoByToken', controllers.user.userInfoByToken)

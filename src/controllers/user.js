@@ -3,30 +3,12 @@ import path from 'path'
 import jsonwebtoken from 'jsonwebtoken'
 import fs from 'fs'
 import validator from '../tool/validator'
-
-const publicKey = fs.readFileSync(path.join(__dirname, '../../publicKey.pub'))
-export let login = (ctx) => {
-  if (ctx.request.header.authentication) {
-    console.log('bbb')
-    try {
-      let verifyResult = jsonwebtoken.verify(ctx.request.header.authentication, publicKey)
-      console.log(verifyResult)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-  // jsonwebtoken.sign({id:'userABC'},publicKey,{expiresIn:1*60/*24*60*60 1 days*/})
-  let token = jsonwebtoken.sign({
-        data: ctx.request.body.account,
-        exp: Math.floor(Date.now() / 1000) + (60 * 60) // 设置 token 过期时间 60 seconds * 60 minutes = 1 hour
-      }, publicKey)
-  ctx.body = {
-    result: '100',
-    msg: '登录成功',
-    dto:{
-      token: token,
-    },
-  }
+import userServices from '../services/userServices'
+import {webToken} from '../lib/webToken'
+export let login = async(ctx) => {
+  let {account,password} = ctx.request.body;
+  let result =  await userServices.login(account,password)
+  ctx.body = result
 }
 
 export let userInfo = (ctx) => {
@@ -54,15 +36,14 @@ export let userInfoByToken = (ctx) => {
     'personalitySign':'做一个有逼格没逼事的二逼',
     'status':'1'};
   ctx.body = {
-    result: '100',
+    code: '200',
     msg: '获取成功',
     dto:userInfo,
   }
 }
 
-export let register = (ctx) => {
-  let userInfo=ctx.request.body;
-
+export let register = async (ctx) => {
+  let userInfo = ctx.request.body;
   validator(userInfo,
     {
       account:'account',
@@ -73,10 +54,11 @@ export let register = (ctx) => {
       password:'password'
     }
   );
-
-  ctx.body = {
-    result: '100',
-    msg: '注册成功',
-  }
-
+  let result = await userServices.addUser({
+    loginAccount:userInfo.account,
+    email:userInfo.email,
+    password:userInfo.password,
+    mobile:userInfo.mobile?userInfo.mobile:'-',
+  })
+  ctx.body = result;
 }

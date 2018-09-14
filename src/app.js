@@ -9,13 +9,12 @@ import MainRoutes from './routes/main-routes'
 import ErrorRoutesCatch from './middleware/ErrorRoutesCatch'
 import ErrorRoutes from './routes/error-routes'
 import jwt from 'koa-jwt'
+import tokenKey from './lib/webToken'
 import fs from 'fs'
 // import PluginLoader from './lib/PluginLoader'
 
 const app = new Koa2()
 const env = process.env.NODE_ENV || 'development' // Current mode
-
-const publicKey = fs.readFileSync(path.join(__dirname, '../publicKey.pub'))
 
 app
   .use((ctx, next) => {
@@ -31,7 +30,7 @@ app
   })
   .use(ErrorRoutesCatch())
   .use(KoaStatic('assets', path.resolve(__dirname, '../assets'))) // Static resource
-  .use(jwt({ secret: publicKey }).unless({ path: [/^\/public|\/user\/login|\/user\/register|\/assets/] }))
+  .use(jwt({ secret: tokenKey }).unless({ path: [/^\/public|\/user\/login|\/user\/register|\/assets/] }))
   .use(KoaBody({
     multipart: true,
     strict: false,
