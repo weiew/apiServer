@@ -17,9 +17,8 @@ router
   .get('/api/user/login', controllers.user.login)
   .post('/api/user/userInfo', controllers.user.userInfo)
 
-
-
-  .post('/api/project/info', controllers.project.projectInfo)
+  .post('/api/project/list', controllers.project.list)
+  .post('/api/project/info', controllers.project.info)
   .post('/api/module/info', controllers.module.moduleInfo)
   .post('/api/interface/info', controllers.interface.interfaceInfo)
   .post('/api/field/info', controllers.field.fieldInfo)

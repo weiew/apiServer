@@ -3,7 +3,7 @@ import path from 'path'
 import jsonwebtoken from 'jsonwebtoken'
 import fs from 'fs'
 import validator from '../tool/validator'
-import userServices from '../services/userServices'
+import userServices from '../services/userService'
 import {webToken} from '../lib/webToken'
 export let login = async(ctx) => {
   let {account,password} = ctx.request.body;
@@ -21,24 +21,18 @@ export let userInfo = (ctx) => {
   }
 }
 
-export let userInfoByToken = (ctx) => {
-  console.log('userInfo');
-  let userInfo={
-    'id':'0',
-    'loginAccount':'admin00001',
-    'name':'魏艳吉',
-    'mobile':'18515007527',
-    'email':'zms-bd@163.com',
-    'gender':'1',
-    'age':'26',
-    'profilePicture':'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530164926316&di=51729718de1ef37beba19363e07a552a&imgtype=0&src=http%3A%2F%2Fbig5.xinhuanet.com%2Fgate%2Fbig5%2Fwww.xinhuanet.com%2Fsports%2Ftitlepic%2F12769%2F127693029_1429075944904_title0h.jpg',
-    'address':'北京市昌平区回龙观',
-    'personalitySign':'做一个有逼格没逼事的二逼',
-    'status':'1'};
-  ctx.body = {
-    code: '200',
-    msg: '获取成功',
-    dto:userInfo,
+export let userInfoByToken = async(ctx) => {
+  let result = await userServices.queryUserInfo({
+    loginAccount:ctx.request.body.account,
+  })
+  if(result.loginAccount){
+    ctx.body = {
+      code: '200',
+      msg: '获取成功',
+      dto:result,
+    }
+  }else{
+    ctx.body = result;
   }
 }
 
@@ -60,5 +54,9 @@ export let register = async (ctx) => {
     password:userInfo.password,
     mobile:userInfo.mobile?userInfo.mobile:'-',
   })
+  if(result.code == '200'){
+    let infoResult = await userServices.addUserInfo(result.newUser)
+  }
+  delete result.newUser;
   ctx.body = result;
 }

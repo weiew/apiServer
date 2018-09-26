@@ -7,11 +7,11 @@ let user = sequelize.define('tb_userinfo', {
     allowNull: false
   },
   loginAccount: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING(40),
     allowNull: false
   },
   name: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING(20),
     allowNull: false
   },
   mobile: {
