@@ -1,4 +1,4 @@
-import Hashids from 'Hashids'
+import Hashids from 'hashids'
 import _uuid from 'uuid'
 import nodemailer from 'nodemailer'
 import nodemailerSmtpTransport from 'nodemailer-smtp-transport'

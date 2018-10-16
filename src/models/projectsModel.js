@@ -10,6 +10,11 @@ let user = sequelize.define('tb_projects', {
     type: Sequelize.STRING(40),
     allowNull: false
   },
+  parentId: {
+    type: Sequelize.INTEGER,
+    defaultValue: "none",
+    allowNull: false
+  },
   name: {
     type: Sequelize.STRING(20),
     allowNull: false
