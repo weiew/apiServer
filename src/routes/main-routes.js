@@ -17,7 +17,7 @@ router
   .get('/api/user/login', controllers.user.login)
   .post('/api/user/userInfo', controllers.user.userInfo)
 
-  .post('/public/shareInfo', controllers.share.shareInfo)
+  .post('/api/user/shareInfo', controllers.share.shareInfo)
   .post('/api/project/list', controllers.project.list)
   .post('/api/project/info', controllers.project.info)
   .post('/api/project/selection', controllers.project.selection)
