@@ -55,6 +55,24 @@ let projectService = {
       throw new Error(err);
     }
   },
+  editProject: async(data) => {
+    try{
+      let projectById = await projectsModel.find({where:{$or:[{id:data.id}]}});
+      data.name && (projectById.name = data.name);
+      data.descript && (projectById.descript = data.descript);
+      data.descriptionMD && (projectById.descriptionMD = data.descriptionMD);
+      projectById.updateTime = Date.now();
+      projectById.save();
+      return {
+        code: '200',
+        msg: 'success',
+        dto: projectById
+      }
+    }catch (err){
+      console.log(err)
+      throw new Error(err);
+    }
+  },
   projectInfo: async(projectId) => {
     try{
       let projectInfo = await projectsModel.find({where:{$or:[{id:projectId}]}});

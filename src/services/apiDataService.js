@@ -33,9 +33,12 @@ let apiDataService = {
       data.type && (apiById.type = data.type);
       data.paramIn && (apiById.paramIn = data.paramIn);
       data.paramOut && (apiById.paramOut = data.paramOut);
+      data.paramMaxIdIn && (apiById.paramMaxIdIn = data.paramMaxIdIn);
+      data.paramMaxIdOut && (apiById.paramMaxIdOut = data.paramMaxIdOut);
       data.address && (apiById.address = data.address);
       data.editor && (apiById.editor = data.editor);
       data.status && (apiById.status = data.status);
+      data.descriptionMD && (apiById.descriptionMD = data.descriptionMD);
       apiById.updateTime = Date.now();
       apiById.version ++;
       apiById.save();

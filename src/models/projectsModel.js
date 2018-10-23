@@ -27,6 +27,10 @@ let user = sequelize.define('tb_projects', {
     type: Sequelize.STRING(100),
     allowNull: true
   },
+  descriptionMD: {
+    type: Sequelize.TEXT('long'),
+    allowNull: true,
+  },
   createTime: {
     type: Sequelize.DATE,
     defaultValue:Sequelize.NOW,

@@ -21,6 +21,12 @@ export let addProject = async(ctx) => {
   ctx.body = result
 }
 
+export let editProject = async(ctx) => {
+  let body = ctx.request.body;
+  let result = await projectService.editProject(body);
+  ctx.body = result
+}
+
 export let projectInfo = async(ctx) => {
   let body = ctx.request.body;
   let result = await projectService.projectInfo(body.projectId);

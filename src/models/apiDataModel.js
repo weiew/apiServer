@@ -26,7 +26,19 @@ let user = sequelize.define('tb_apiData', {
     type: Sequelize.TEXT('long'),
     allowNull: true,
   },
+  paramMaxIdIn: {
+    type: Sequelize.INTEGER(),
+    allowNull: true,
+  },
   paramOut: {
+    type: Sequelize.TEXT('long'),
+    allowNull: true,
+  },
+  paramMaxIdOut: {
+    type: Sequelize.INTEGER(),
+    allowNull: true,
+  },
+  descriptionMD: {
     type: Sequelize.TEXT('long'),
     allowNull: true,
   },

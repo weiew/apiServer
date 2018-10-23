@@ -17,10 +17,12 @@ router
   .get('/api/user/login', controllers.user.login)
   .post('/api/user/userInfo', controllers.user.userInfo)
 
+  .post('/public/shareInfo', controllers.share.shareInfo)
   .post('/api/project/list', controllers.project.list)
   .post('/api/project/info', controllers.project.info)
   .post('/api/project/selection', controllers.project.selection)
   .post('/api/project/addProject', controllers.project.addProject)
+  .post('/api/project/editProject', controllers.project.editProject)
   .post('/api/project/projectInfo', controllers.project.projectInfo)
   .post('/api/apiData/addApi', controllers.apiData.addApi)
   .post('/api/apiData/editApi', controllers.apiData.editApi)
