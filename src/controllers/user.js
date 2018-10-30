@@ -23,7 +23,7 @@ export let userInfo = (ctx) => {
 
 export let userInfoByToken = async(ctx) => {
   let result = await userServices.queryUserInfo({
-    loginAccount:ctx.request.body.account,
+    loginId:ctx.request.body.loginId,
   })
   if(result.loginAccount){
     ctx.body = {

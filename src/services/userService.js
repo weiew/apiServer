@@ -6,10 +6,11 @@ import {webToken} from "../lib/webToken";
 let userService = {
   login: async(loginAccount,password,email) => {
     try{
-      let queryData = [
-        {loginAccount:loginAccount}
-      ];
-      let User = await loginModel.find({where:{$or:queryData}})
+      let User = await loginModel.find({where:{$or:{loginAccount:loginAccount}}})
+      if(!User){
+        User = await loginModel.find({where:{$or:{email:loginAccount}}})
+      }
+      console.log(User)
       if(!User){
         return {code:300,msg:'用户不存在'}
       }else if(User.password != saltMD5.md5Salt(password,User.salt)){
@@ -18,6 +19,7 @@ let userService = {
       let success = {
         code: 200,
         dto:{
+          loginId: User.loginId,
           token: webToken.create({
             id:loginAccount,
             password: password
@@ -44,9 +46,15 @@ let userService = {
       const pwdMd5 = saltMD5.md5AddSalt(data.password)
       data.password = pwdMd5.md5Password;
       data.salt = pwdMd5.salt;
-      console.log(data)
       let newUser = await loginModel.create(data)
       if(newUser.id){
+        let newInfo = {
+          id:newUser.loginId,
+          loginAccount:newUser.loginAccount,
+          name:newUser.loginAccount,
+          status:'0',
+        }
+        let newUserInfo = await userInfoModel.create(newInfo);
         let e = await email.sendMail(newUser.email,'认证邮件', '你已经成功注册API')
       }
       // t.commit();
@@ -83,7 +91,7 @@ let userService = {
   },
   queryUserInfo: async(data)=>{
     try{
-      let userInfo = await userInfoModel.find({where:{$or:[{loginAccount:data.loginAccount}]}});
+      let userInfo = await userInfoModel.find({where:{$or:[{id:data.loginId}]}});
       if(!userInfo){
         return {code:400,msg:'查无此用户信息'}
       }
